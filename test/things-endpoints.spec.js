@@ -128,7 +128,7 @@ describe('Things Endpoints', function() {
 
   describe(`GET /api/things/:thing_id`, () => {
     context(`Given no things`, () => {
-      beforeEach(() => db.into('thingful_users').insert(testUsers))
+      beforeEach(() =>helpers.seedUsers(db, testUsers))
       it(`responds with 404`, () => {
         const thingId = 123456
         return supertest(app)
@@ -193,10 +193,13 @@ describe('Things Endpoints', function() {
 
   describe(`GET /api/things/:thing_id/reviews`, () => {
     context(`Given no things`, () => {
+      beforeEach(() =>helpers.seedUsers(db, testUsers))
       it(`responds with 404`, () => {
         const thingId = 123456
         return supertest(app)
           .get(`/api/things/${thingId}/reviews`)
+          //set wasnt there
+          .set(`Authorization`, helpers.makeAuthHeader(testUsers[0]))
           .expect(404, { error: `Thing doesn't exist` })
       })
     })
