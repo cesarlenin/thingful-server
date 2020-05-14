@@ -81,7 +81,7 @@ describe('Things Endpoints', function() {
           db,
           testUsers,
           testThings,
-          testReviews,
+          testReviews
         )
       )
 
@@ -90,7 +90,7 @@ describe('Things Endpoints', function() {
           helpers.makeExpectedThing(
             testUsers,
             thing,
-            testReviews,
+            testReviews
           )
         )
         return supertest(app)
@@ -110,7 +110,7 @@ describe('Things Endpoints', function() {
         return helpers.seedMaliciousThing(
           db,
           testUser,
-          maliciousThing,
+          maliciousThing
         )
       })
 

@@ -260,22 +260,22 @@ function seedUsers(db, users) {
     )
 }
 
-function seedThingsTables(db, users, articles, comments=[]) {
+function seedThingsTables(db, users, things, reviews=[]) {
   // use a transaction to group the queries and auto rollback on any failure
   return db.transaction(async trx => {
     await seedUsers(trx, users)
-    await trx.into('thingful_things').insert(articles)
+    await trx.into('thingful_things').insert(things)
     // update the auto sequence to match the forced id values
     await trx.raw(
       `SELECT setval('thingful_things_id_seq', ?)`,
-      [articles[articles.length - 1].id],
+      [things[things.length - 1].id],
     )
-    // only insert comments if there are some, also update the sequence counter
-    if (comments.length) {
-      await trx.into('thingful_reviews').insert(comments)
+    // only insert reviews if there are some, also update the sequence counter
+    if (reviews.length) {
+      await trx.into('thingful_reviews').insert(reviews)
       await trx.raw(
         `SELECT setval('thingful_reviews_id_seq', ?)`,
-        [comments[comments.length - 1].id],
+        [reviews[reviews.length - 1].id],
       )
     }
   })
